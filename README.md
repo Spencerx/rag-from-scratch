@@ -17,6 +17,7 @@ make advanced AI concepts approachable for developers through minimal, well-expl
 - **How to build a local vector database**, store and query documents efficiently.
 - **How to connect everything**, retrieve context and feed it into an LLM for grounded answers.
 - **How to re-rank and normalize**, improving retrieval precision and reducing noise.
+- **Query rewriting**, normalize and rewrite user queries (heuristic and LLM) before retrieval.
 - **Step-by-step code walkthroughs**, every function explained, nothing hidden.
 
 ---
@@ -157,6 +158,19 @@ At the end you can look into [Showcase](examples/06_retrieval_strategies/01_basi
 
 ---
 
+### 10. **Query Rewriting**
+`examples/06_retrieval_strategies/05_query_rewriting/`  
+[Code](examples/06_retrieval_strategies/05_query_rewriting/example.js) | [Code Explanation](examples/06_retrieval_strategies/05_query_rewriting/CODE.md) | [Concepts](examples/06_retrieval_strategies/05_query_rewriting/CONCEPT.md)
+
+**What you'll learn:**
+- Normalizing and cleaning user queries before retrieval
+- Stripping filler, expanding acronyms, and stripping injection-like content
+- Intent classification and optional LLM rewrite (Qwen 3-1 via node-llama-cpp) with heuristic fallback
+
+**Key concepts:** query normalization, intent classification, heuristic rewrite, LLM rewrite, alternate queries
+
+---
+
 ## Project Structure
 
 ```
@@ -240,48 +254,48 @@ At the end you can look into [Showcase](examples/06_retrieval_strategies/01_basi
 │   │   └── 03_metadata_filtering/
 │   │
 │   ├── 06_retrieval_strategies/
-│   │   ├── 01_basic_retrieval/
-│   │   ├── 02_query_preprocessing/
-│   │   ├── 03_hybrid_search/
-│   │   ├── 04_multi_query_retrieval/
-│   │   ├── 05_query_rewriting/
-│   │   ├── 06_rank_results/
-│   │   └── 07_post_retrieval_reranking/
+│   │   ├── 01_basic_retrieval/             # Top-k retrieval, similarity scoring; includes showcase.js
+│   │   ├── 02_query_preprocessing/         # Normalize and clean queries before embedding
+│   │   ├── 03_hybrid_search/               # Vector + keyword (e.g. BM25) combined
+│   │   ├── 04_multi_query_retrieval/       # Decomposition (LLM), parallel retrieval, RRF, dedup (config, helpers)
+│   │   ├── 05_query_rewriting/             # Heuristic + LLM rewrite (Qwen), intent, alternates (config, query-rewriter)
+│   │   ├── 06_rank_results/                # (planned) Score normalization, ranking methods
+│   │   └── 07_post_retrieval_reranking/    # (planned) Rerank retrieved results for precision
 │   │
-│   ├── 07_prompt_engineering_for_rag/
+│   ├── 07_prompt_engineering_for_rag/     # (planned) Context stuffing, citations, compression
 │   │   ├── 01_context_stuffing/
 │   │   ├── 02_citation_prompts/
 │   │   └── 03_context_compression/
 │   │
-│   ├── 08_rag_in_action/
+│   ├── 08_rag_in_action/                   # (planned) Full pipeline, error handling, streaming
 │   │   ├── 01_basic_rag/
 │   │   ├── 02_error_handling/
 │   │   └── 03_streaming_responses/
 │   │
-│   ├── 09_evaluating_rag_quality/
+│   ├── 09_evaluating_rag_quality/          # (planned) Retrieval and generation metrics
 │   │   ├── 01_retrieval_metrics/
 │   │   ├── 02_generation_metrics/
 │   │   └── 03_end_to_end_evaluation/
 │   │
-│   ├── 10_observability_and_caching/
-│   │   └── example.js                      # Cache repeated queries and log performance
-│   │
-│   ├── 11_metadata_and_structured_data/
+│   ├── 10_observability_and_caching/       # (planned) Cache repeated queries, log performance
 │   │   └── example.js
 │   │
-│   ├── 12_graph_db_integration/
-│   │   └── example.js                      # Graph database using kuzu npm package
+│   ├── 11_metadata_and_structured_data/    # (planned) Metadata and structured data handling
+│   │   └── example.js
 │   │
-│   ├── 13_knowledge_requiremens/
-│   │   └── example.js                      # Define what knowledge is needed and where it comes from
+│   ├── 12_graph_db_integration/           # (planned) Graph database (e.g. kuzu) for retrieval
+│   │   └── example.js
 │   │
-│   ├── tutorials/                          # Higher-level guides
+│   ├── 13_knowledge_requiremens/          # (planned) Define knowledge needs and sources
+│   │   └── example.js
+│   │
+│   ├── tutorials/                          # (planned) Higher-level guides
 │   │   ├── basic-rag-pipeline.js
 │   │   ├── conversational-rag.js
 │   │   ├── multi-modal-rag.js
 │   │   └── advanced-retrieval.js
 │   │
-│   ├── templates/                          # Starter templates
+│   ├── templates/                          # (planned) Starter templates
 │   │   ├── simple-rag/
 │   │   ├── api-server/
 │   │   └── chatbot/
@@ -293,6 +307,8 @@ At the end you can look into [Showcase](examples/06_retrieval_strategies/01_basi
 │   │
 │   └── README.md
 ```
+
+Retrieval strategies 01–05 are implemented; 06_rank_results and 07_post_retrieval_reranking are planned (see What's Coming Next). Implemented examples often include `config.js`, `CODE.md`, and `CONCEPT.md` alongside `example.js`.
 
 ---
 
